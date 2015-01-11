@@ -5,15 +5,11 @@
  */
 function getPdo()
 {
-    try {
-        $pdo = new \PDO(
-            CREDENTIALS_TYPE.':host='.CREDENTIALS_HOST.';dbname='.CREDENTIALS_NAME,
-            CREDENTIALS_USER,
-            CREDENTIALS_PASS
-        );
-    } catch (\Exception $e) {
-        $pdo = null;
-    }
+    $pdo = new \PDO(
+        CREDENTIALS_TYPE.':host='.CREDENTIALS_HOST.';dbname='.CREDENTIALS_NAME,
+        CREDENTIALS_USER,
+        CREDENTIALS_PASS
+    );
 
     if (!defined('TEST_AVAILABILITY_PDO')) {
         define('TEST_AVAILABILITY_PDO', ($pdo)?true:false);
