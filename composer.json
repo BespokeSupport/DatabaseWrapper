@@ -3,6 +3,12 @@
     "description": "Multi platform database wrapper",
     "license": "MIT",
     "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Rick Seymour",
+            "email": "web@bespoke.support"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "BespokeSupport\\DatabaseWrapper\\": "src/"
