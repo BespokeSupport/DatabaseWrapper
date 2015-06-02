@@ -152,4 +152,48 @@ TAG;
 
         return $result;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function insert($table, array $values)
+    {
+        if (!is_array($values) || !count($values)) {
+            return false;
+        }
+
+
+        // sql injection protection :(
+        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
+
+        $keysArray = array();
+        $valuesArray = array();
+        $keyId = 0;
+        foreach ($values as $key => $value) {
+            $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
+            $keysArray[] = ":pdoKey".$keyId;
+            $valuesArray[] = $value;
+            $keyId++;
+        }
+
+        $keysSql = implode(',', preg_replace('#[^a-zA-Z0-9_-]#', '', array_keys($values)));
+
+        $valuesSql = implode(',', $keysArray);
+
+        $sql = <<<TAG
+            INSERT INTO {$table}
+            ($keysSql)
+            VALUES ($valuesSql)
+TAG;
+
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($valuesArray as $keyId => $value) {
+            $stmt->bindValue($keysArray[$keyId], $value);
+        }
+
+        $stmt->execute();
+
+        return $this->database->lastInsertId();
+    }
 }

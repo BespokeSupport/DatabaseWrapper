@@ -38,4 +38,11 @@ interface DatabaseWrapperInterface
      * @return array
      */
     public function findBy($table, array $findBy);
+
+    /**
+     * @param $table
+     * @param array $values
+     * @return array
+     */
+    public function insert($table, array $values);
 }

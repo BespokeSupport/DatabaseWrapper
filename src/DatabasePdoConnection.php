@@ -150,4 +150,12 @@ TAG;
 
         return $result;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function insert($table, array $values)
+    {
+        // TODO
+    }
 }
