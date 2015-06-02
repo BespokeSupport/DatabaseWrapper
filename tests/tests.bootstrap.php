@@ -1,4 +1,8 @@
 <?php
+/**
+ * Which tests are to be run?
+ * PHP Version 5.3
+ */
 
 define('TEST_DATABASE_TABLE', 'basic');
 define('TEST_DATABASE_TABLE_NO_ID', 'non_standard');
@@ -21,14 +25,29 @@ if (file_exists(dirname(__FILE__).'/tests.credentials.php')) {
     define('CREDENTIALS_PASS', '');
 }
 
-
-define('TEST_AVAILABILITY_DOCTRINE', (class_exists('Doctrine\DBAL\Connection')));
-define('TEST_AVAILABILITY_ZEND_ADAPTER', (class_exists('Zend\Db\Adapter\Adapter')));
-
-
 $namespace = '\BespokeSupport\DatabaseWrapper';
-$testsArray['pdo']          = array('get_connection' => 'getPdo', 'class' => $namespace.'\DatabasePdoConnection');
-$testsArray['doctrine']     = array('get_connection' => 'getDoctrineConnection', 'class' => $namespace.'\DatabaseDoctrineConnection');
-$testsArray['zend_adapter'] = array('get_connection' => 'getZendAdapter', 'class' => $namespace.'\DatabaseZendAdapterConnection');
+
+$testsArray = array();
+
+if (class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers())) {
+    $testsArray['pdo']  = array(
+        'get_connection' => 'getPdo',
+        'class' => $namespace.'\DatabasePdoConnection'
+    );
+}
+
+if (class_exists('Doctrine\DBAL\Connection')) {
+    $testsArray['doctrine'] = array(
+        'get_connection' => 'getDoctrineConnection',
+        'class' => $namespace.'\DatabaseDoctrineConnection'
+    );
+}
+
+if (class_exists('Zend\Db\Adapter\Adapter')) {
+    $testsArray['zend_adapter'] = array(
+        'get_connection' => 'getZendAdapter',
+        'class' => $namespace.'\DatabaseZendAdapterConnection'
+    );
+}
 
 define('TESTS_ARRAY', serialize($testsArray));

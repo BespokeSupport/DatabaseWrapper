@@ -2,4 +2,4 @@
 /build/
 composer.lock
 composer.phar
-
+/tests/tests.credentials.php

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Functions to grab DB
+ */
+
+use Doctrine\DBAL\DriverManager;
 
 /**
  * @return \PDO
@@ -23,8 +28,6 @@ function getPdo()
  */
 function getDoctrineConnection()
 {
-    $config = new \Doctrine\DBAL\Configuration();
-
     $connectionParams = array(
         'dbname' => CREDENTIALS_NAME,
         'user' => CREDENTIALS_USER,
@@ -33,7 +36,7 @@ function getDoctrineConnection()
         'driver' => 'pdo_mysql',
     );
 
-    $doctrineConnection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+    $doctrineConnection = DriverManager::getConnection($connectionParams, null);
 
     return $doctrineConnection;
 }
@@ -50,5 +53,18 @@ function getZendAdapter()
             'username' => CREDENTIALS_USER,
             'password' => CREDENTIALS_PASS
         )
+    );
+}
+
+/**
+ * @return mysqli
+ */
+function getMysqli()
+{
+    return new mysqli(
+        CREDENTIALS_HOST,
+        CREDENTIALS_USER,
+        CREDENTIALS_PASS,
+        CREDENTIALS_NAME
     );
 }
