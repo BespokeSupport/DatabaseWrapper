@@ -131,4 +131,13 @@ TAG;
     {
         // TODO
     }
+
+    /**
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        // TODO create PDO
+        return null;
+    }
 }

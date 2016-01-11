@@ -11,6 +11,9 @@
 
 namespace BespokeSupport\DatabaseWrapper;
 
+use Doctrine\DBAL\Connection;
+use Zend\Db\Adapter\Adapter;
+
 /**
  * Class DatabaseAbstract
  * @package BespokeSupport\DatabaseWrapper
@@ -18,12 +21,22 @@ namespace BespokeSupport\DatabaseWrapper;
 abstract class DatabaseAbstract implements DatabaseWrapperInterface
 {
     /**
-     * @var object
+     * @var \PDO|Connection|Adapter
      */
     protected $database;
     /**
      * @param $database
      * @throws DatabaseWrapperException
      */
-    public function __construct($database) {}
+    public function __construct($database)
+    {
+    }
+
+    /**
+     * @return Connection|\PDO|Adapter
+     */
+    public function getDatabase()
+    {
+        return $this->database;
+    }
 }

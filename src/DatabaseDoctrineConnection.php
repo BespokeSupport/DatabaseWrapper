@@ -195,4 +195,12 @@ TAG;
 
         return $this->database->lastInsertId();
     }
+
+    /**
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        return $this->database->getWrappedConnection();
+    }
 }

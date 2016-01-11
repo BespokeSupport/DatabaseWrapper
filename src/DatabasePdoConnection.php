@@ -157,4 +157,12 @@ TAG;
     {
         // TODO
     }
+
+    /**
+     * @return \PDO
+     */
+    public function getPdo()
+    {
+        return $this->database;
+    }
 }
