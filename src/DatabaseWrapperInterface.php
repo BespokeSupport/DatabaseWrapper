@@ -27,17 +27,17 @@ interface DatabaseWrapperInterface
 
     /**
      * @param $table
-     * @param array $findArray
-     * @return object
-     */
-    public function findOneBy($table, array $findArray);
-
-    /**
-     * @param $table
      * @param array $findBy
      * @return array
      */
     public function findBy($table, array $findBy);
+
+    /**
+     * @param $table
+     * @param array $findArray
+     * @return object
+     */
+    public function findOneBy($table, array $findArray);
 
     /**
      * @param $table

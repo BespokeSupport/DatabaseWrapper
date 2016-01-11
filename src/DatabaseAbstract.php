@@ -24,6 +24,7 @@ abstract class DatabaseAbstract implements DatabaseWrapperInterface
      * @var \PDO|Connection|Adapter
      */
     protected $database;
+
     /**
      * @param $database
      * @throws DatabaseWrapperException

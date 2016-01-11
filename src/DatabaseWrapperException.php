@@ -15,4 +15,6 @@ namespace BespokeSupport\DatabaseWrapper;
  * Class DatabaseWrapperException
  * @package BespokeSupport\DatabaseWrapper
  */
-class DatabaseWrapperException extends \Exception {}
+class DatabaseWrapperException extends \Exception
+{
+}

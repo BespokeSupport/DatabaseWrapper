@@ -66,6 +66,49 @@ TAG;
     /**
      * {@inheritdoc}
      */
+    public function findBy($table, array $findArray)
+    {
+        if (!is_array($findArray) || !count($findArray)) {
+            return false;
+        }
+
+        // sql injection protection :(
+        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
+
+        $whereStmt = '';
+        $keyId = 0;
+        foreach ($findArray as $key => $value) {
+            $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
+            $whereStmt .= " AND {$key} = :pdoKey" . $keyId;
+            $keyId++;
+        }
+
+        $sql = <<<TAG
+            SELECT
+            *
+            FROM {$table}
+            WHERE (1=1)
+            {$whereStmt}
+TAG;
+
+        $stmt = $this->database->prepare($sql);
+
+        $keyId = 0;
+        foreach ($findArray as $key => $value) {
+            $stmt->bindValue(':pdoKey' . $keyId, $value);
+            $keyId++;
+        }
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(\PDO::FETCH_OBJ);
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findOneBy($table, array $findArray)
     {
         if (!is_array($findArray) || !count($findArray)) {
@@ -79,7 +122,7 @@ TAG;
         $keyId = 0;
         foreach ($findArray as $key => $value) {
             $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
-            $whereStmt .= " AND {$key} = :pdoKey".$keyId;
+            $whereStmt .= " AND {$key} = :pdoKey" . $keyId;
             $keyId++;
         }
 
@@ -96,7 +139,7 @@ TAG;
 
         $keyId = 0;
         foreach ($findArray as $key => $value) {
-            $stmt->bindValue(':pdoKey'.$keyId, $value);
+            $stmt->bindValue(':pdoKey' . $keyId, $value);
             $keyId++;
         }
 
@@ -108,46 +151,11 @@ TAG;
     }
 
     /**
-     * {@inheritdoc}
+     * @return \PDO
      */
-    public function findBy($table, array $findArray)
+    public function getPdo()
     {
-        if (!is_array($findArray) || !count($findArray)) {
-            return false;
-        }
-
-        // sql injection protection :(
-        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
-
-        $whereStmt = '';
-        $keyId = 0;
-        foreach ($findArray as $key => $value) {
-            $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
-            $whereStmt .= " AND {$key} = :pdoKey".$keyId;
-            $keyId++;
-        }
-
-        $sql = <<<TAG
-            SELECT
-            *
-            FROM {$table}
-            WHERE (1=1)
-            {$whereStmt}
-TAG;
-
-        $stmt = $this->database->prepare($sql);
-
-        $keyId = 0;
-        foreach ($findArray as $key => $value) {
-            $stmt->bindValue(':pdoKey'.$keyId, $value);
-            $keyId++;
-        }
-
-        $stmt->execute();
-
-        $result = $stmt->fetchAll(\PDO::FETCH_OBJ);
-
-        return $result;
+        return $this->database;
     }
 
     /**
@@ -159,10 +167,26 @@ TAG;
     }
 
     /**
-     * @return \PDO
+     * Begin Transaction
      */
-    public function getPdo()
+    public function transactionBegin()
     {
-        return $this->database;
+        $this->database->beginTransaction();
+    }
+
+    /**
+     * End Transaction
+     */
+    public function transactionCommit()
+    {
+        $this->database->commit();
+    }
+
+    /**
+     * Rollback Transaction
+     */
+    public function transactionRollback()
+    {
+        $this->database->rollBack();
     }
 }

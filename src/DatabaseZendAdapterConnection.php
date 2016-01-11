@@ -64,6 +64,36 @@ TAG;
     /**
      * {@inheritdoc}
      */
+    public function findBy($table, array $findArray)
+    {
+        if (!is_array($findArray) || !count($findArray)) {
+            return false;
+        }
+
+        // sql injection protection :(
+        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
+
+        $whereStmt = '';
+        foreach ($findArray as $key => $value) {
+            $whereStmt .= " AND {$key} = :" . $key;
+        }
+
+        $sql = <<<TAG
+            SELECT
+            *
+            FROM {$table}
+            WHERE (1=1)
+            {$whereStmt}
+TAG;
+
+        $result = $this->database->query($sql, $findArray);
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findOneBy($table, array $findArray)
     {
         if (!is_array($findArray) || !count($findArray)) {
@@ -75,7 +105,7 @@ TAG;
 
         $whereStmt = '';
         foreach ($findArray as $key => $value) {
-            $whereStmt .= " AND {$key} = :".$key;
+            $whereStmt .= " AND {$key} = :" . $key;
         }
 
         $sql = <<<TAG
@@ -95,33 +125,12 @@ TAG;
     }
 
     /**
-     * {@inheritdoc}
+     * @return \PDO
      */
-    public function findBy($table, array $findArray)
+    public function getPdo()
     {
-        if (!is_array($findArray) || !count($findArray)) {
-            return false;
-        }
-
-        // sql injection protection :(
-        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
-
-        $whereStmt = '';
-        foreach ($findArray as $key => $value) {
-            $whereStmt .= " AND {$key} = :".$key;
-        }
-
-        $sql = <<<TAG
-            SELECT
-            *
-            FROM {$table}
-            WHERE (1=1)
-            {$whereStmt}
-TAG;
-
-        $result = $this->database->query($sql, $findArray);
-
-        return $result;
+        // TODO create PDO
+        return null;
     }
 
     /**
@@ -133,11 +142,26 @@ TAG;
     }
 
     /**
-     * @return \PDO
+     * Begin Transaction
      */
-    public function getPdo()
+    public function transactionBegin()
     {
-        // TODO create PDO
-        return null;
+        $this->database->getDriver()->getConnection()->beginTransaction();
+    }
+
+    /**
+     * End Transaction
+     */
+    public function transactionCommit()
+    {
+        $this->database->getDriver()->getConnection()->commit();
+    }
+
+    /**
+     * Rollback Transaction
+     */
+    public function transactionRollback()
+    {
+        $this->database->getDriver()->getConnection()->rollback();
     }
 }
