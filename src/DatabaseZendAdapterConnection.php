@@ -117,7 +117,6 @@ TAG;
             FROM {$table}
             WHERE (1=1)
             {$whereStmt}
-            LIMIT 1
 TAG;
 
         $result = $this->database->query($sql, $findArray);
