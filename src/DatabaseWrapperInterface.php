@@ -40,9 +40,28 @@ interface DatabaseWrapperInterface
     public function findOneBy($table, array $findArray);
 
     /**
+     * @return \PDO
+     */
+    public function getPdo();
+
+    /**
      * @param $table
      * @param array $values
      * @return array
      */
     public function insert($table, array $values);
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return array
+     */
+    public function sqlFetchAll($sql, array $params = array());
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return \stdClass
+     */
+    public function sqlFetchOne($sql, array $params = array());
 }

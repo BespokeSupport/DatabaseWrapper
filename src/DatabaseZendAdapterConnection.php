@@ -142,6 +142,30 @@ TAG;
     }
 
     /**
+     * @param $sql
+     * @param array $params
+     * @return \stdClass
+     */
+    public function sqlFetchAll($sql, array $params = array())
+    {
+        return $this->database->query($sql, $params);
+    }
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return \stdClass
+     */
+    public function sqlFetchOne($sql, array $params = array())
+    {
+        $result = $this->database->query($sql, $params);
+
+        $row = $result->current();
+
+        return $row;
+    }
+
+    /**
      * Begin Transaction
      */
     public function transactionBegin()

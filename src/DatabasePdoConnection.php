@@ -167,6 +167,30 @@ TAG;
     }
 
     /**
+     * @param $sql
+     * @param array $params
+     * @return \stdClass
+     */
+    public function sqlFetchAll($sql, array $params = array())
+    {
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    }
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return \stdClass
+     */
+    public function sqlFetchOne($sql, array $params = array())
+    {
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetch(\PDO::FETCH_OBJ);
+    }
+
+    /**
      * Begin Transaction
      */
     public function transactionBegin()
