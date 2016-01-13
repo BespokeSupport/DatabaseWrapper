@@ -153,7 +153,7 @@ TAG;
     }
 
     /**
-     * @return \PDO
+     * {@inheritdoc}
      */
     public function getPdo()
     {
@@ -204,9 +204,7 @@ TAG;
     }
 
     /**
-     * @param $sql
-     * @param array $params
-     * @return \stdClass
+     * {@inheritdoc}
      */
     public function sqlFetchAll($sql, array $params = array())
     {
@@ -216,9 +214,7 @@ TAG;
     }
 
     /**
-     * @param $sql
-     * @param array $params
-     * @return \stdClass
+     * {@inheritdoc}
      */
     public function sqlFetchOne($sql, array $params = array())
     {
@@ -228,7 +224,22 @@ TAG;
     }
 
     /**
-     * Begin Transaction
+     * {@inheritdoc}
+     */
+    public function sqlInsertUpdate($sql, array $params = array())
+    {
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute($params);
+
+        if (false === stripos($sql, 'INSERT')) {
+            return $this->database->affectedRows();
+        } else {
+            return $this->database->lastInsertId();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function transactionBegin()
     {
@@ -236,7 +247,7 @@ TAG;
     }
 
     /**
-     * End Transaction
+     * {@inheritdoc}
      */
     public function transactionCommit()
     {
@@ -244,7 +255,7 @@ TAG;
     }
 
     /**
-     * Rollback Transaction
+     * {@inheritdoc}
      */
     public function transactionRollback()
     {

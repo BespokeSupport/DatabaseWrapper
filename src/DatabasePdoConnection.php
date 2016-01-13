@@ -151,7 +151,7 @@ TAG;
     }
 
     /**
-     * @return \PDO
+     * {@inheritdoc}
      */
     public function getPdo()
     {
@@ -163,13 +163,46 @@ TAG;
      */
     public function insert($table, array $values)
     {
-        // TODO
+        if (!is_array($values) || !count($values)) {
+            return false;
+        }
+
+        // sql injection protection :(
+        $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
+
+        $keysArray = array();
+        $valuesArray = array();
+        $keyId = 0;
+        foreach ($values as $key => $value) {
+            $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
+            $keysArray[] = ":pdoKey" . $keyId;
+            $valuesArray[] = $value;
+            $keyId++;
+        }
+
+        $keysSql = implode(',', preg_replace('#[^a-zA-Z0-9_-]#', '', array_keys($values)));
+
+        $valuesSql = implode(',', $keysArray);
+
+        $sql = <<<TAG
+            INSERT INTO {$table}
+            ($keysSql)
+            VALUES ($valuesSql)
+TAG;
+
+        $stmt = $this->database->prepare($sql);
+
+        foreach ($valuesArray as $keyId => $value) {
+            $stmt->bindValue($keysArray[$keyId], $value);
+        }
+
+        $stmt->execute();
+
+        return $this->database->lastInsertId();
     }
 
     /**
-     * @param $sql
-     * @param array $params
-     * @return \stdClass
+     * {@inheritdoc}
      */
     public function sqlFetchAll($sql, array $params = array())
     {
@@ -179,9 +212,7 @@ TAG;
     }
 
     /**
-     * @param $sql
-     * @param array $params
-     * @return \stdClass
+     * {@inheritdoc}
      */
     public function sqlFetchOne($sql, array $params = array())
     {
@@ -191,7 +222,22 @@ TAG;
     }
 
     /**
-     * Begin Transaction
+     * {@inheritdoc}
+     */
+    public function sqlInsertUpdate($sql, array $params = array())
+    {
+        $stmt = $this->database->prepare($sql);
+        $stmt->execute($params);
+
+        if (false === stripos($sql, 'INSERT')) {
+            return $this->database->affectedRows();
+        } else {
+            return $this->database->lastInsertId();
+        }
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function transactionBegin()
     {
@@ -199,7 +245,7 @@ TAG;
     }
 
     /**
-     * End Transaction
+     * {@inheritdoc}
      */
     public function transactionCommit()
     {
@@ -207,7 +253,7 @@ TAG;
     }
 
     /**
-     * Rollback Transaction
+     * {@inheritdoc}
      */
     public function transactionRollback()
     {

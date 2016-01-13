@@ -64,4 +64,26 @@ interface DatabaseWrapperInterface
      * @return \stdClass
      */
     public function sqlFetchOne($sql, array $params = array());
+
+    /**
+     * @param $sql
+     * @param array $params
+     * @return string
+     */
+    public function sqlInsertUpdate($sql, array $params = array());
+
+    /**
+     * Begin Transaction
+     */
+    public function transactionBegin();
+
+    /**
+     * End Transaction
+     */
+    public function transactionCommit();
+
+    /**
+     * Rollback Transaction
+     */
+    public function transactionRollback();
 }
