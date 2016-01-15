@@ -19,11 +19,11 @@ interface DatabaseWrapperInterface
 {
     /**
      * @param $table
-     * @param $id
+     * @param $primaryKey
      * @param string $primaryColumn
      * @return object
      */
-    public function find($table, $id, $primaryColumn = 'id');
+    public function find($table, $primaryKey, $primaryColumn = 'id');
 
     /**
      * @param $table

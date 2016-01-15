@@ -31,13 +31,13 @@ class DatabasePdoConnection extends DatabaseAbstract
             throw new DatabaseWrapperException('Invalid database object');
         }
 
-        $this->database = $database;
+        parent::__construct($database);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function find($table, $id, $primaryColumn = 'id')
+    public function find($table, $primaryKey, $primaryColumn = 'id')
     {
         // sql injection protection :(
         $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
@@ -54,11 +54,11 @@ TAG;
 
         $stmt = $this->database->prepare($sql);
 
-        $stmt->bindParam($primaryColumn, $id);
+        $stmt->bindParam($primaryColumn, $primaryKey);
 
         $stmt->execute();
 
-        $row = $stmt->fetch(\PDO::FETCH_OBJ);;
+        $row = $stmt->fetch(\PDO::FETCH_OBJ);
 
         return $row;
     }
@@ -173,8 +173,7 @@ TAG;
         $keysArray = array();
         $valuesArray = array();
         $keyId = 0;
-        foreach ($values as $key => $value) {
-            $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
+        foreach ($values as $value) {
             $keysArray[] = ":pdoKey" . $keyId;
             $valuesArray[] = $value;
             $keyId++;
@@ -230,7 +229,7 @@ TAG;
         $stmt->execute($params);
 
         if (false === stripos($sql, 'INSERT')) {
-            return $this->database->affectedRows();
+            return $stmt->rowCount();
         } else {
             return $this->database->lastInsertId();
         }

@@ -33,13 +33,13 @@ class DatabaseZendAdapterConnection extends DatabaseAbstract
             throw new DatabaseWrapperException('Invalid database object');
         }
 
-        $this->database = $database;
+        parent::__construct($database);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function find($table, $id, $primaryColumn = 'id')
+    public function find($table, $primaryKey, $primaryColumn = 'id')
     {
         // sql injection protection :(
         $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
@@ -54,7 +54,7 @@ class DatabaseZendAdapterConnection extends DatabaseAbstract
             LIMIT 1
 TAG;
 
-        $result = $this->database->query($sql, array($primaryColumn => $id));
+        $result = $this->database->query($sql, array($primaryColumn => $primaryKey));
 
         $row = $result->current();
 

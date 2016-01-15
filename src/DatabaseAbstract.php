@@ -31,6 +31,7 @@ abstract class DatabaseAbstract implements DatabaseWrapperInterface
      */
     public function __construct($database)
     {
+        $this->database = $database;
     }
 
     /**
