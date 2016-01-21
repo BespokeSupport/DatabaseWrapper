@@ -58,6 +58,11 @@ TAG;
 
         $stmt->execute();
 
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
+
         $row = $stmt->fetch(\PDO::FETCH_OBJ);
 
         return $row;
@@ -100,6 +105,11 @@ TAG;
         }
 
         $stmt->execute();
+
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
 
         $result = $stmt->fetchAll(\PDO::FETCH_OBJ);
 
@@ -144,6 +154,11 @@ TAG;
         }
 
         $stmt->execute();
+
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
 
         $result = $stmt->fetch(\PDO::FETCH_OBJ);
 
@@ -197,6 +212,11 @@ TAG;
 
         $stmt->execute();
 
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
+
         return $this->database->lastInsertId();
     }
 
@@ -207,6 +227,12 @@ TAG;
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);
+
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
+
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
@@ -217,6 +243,12 @@ TAG;
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);
+
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
+
         return $stmt->fetch(\PDO::FETCH_OBJ);
     }
 
@@ -227,6 +259,11 @@ TAG;
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);
+
+        if ('00000' != $stmt->errorCode()) {
+            $info = $stmt->errorInfo();
+            throw new DatabaseWrapperException($info[2]);
+        }
 
         if (false === stripos($sql, 'INSERT')) {
             return $stmt->rowCount();
