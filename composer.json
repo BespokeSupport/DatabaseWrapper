@@ -5,8 +5,8 @@
     "minimum-stability": "stable",
     "authors": [
         {
-            "name": "Rick Seymour",
-            "email": "web@bespoke.support"
+            "name": "Richard Seymour",
+            "email": "web@seymour.im"
         }
     ],
     "autoload": {

@@ -29,24 +29,24 @@ $namespace = '\BespokeSupport\DatabaseWrapper';
 
 $testsArray = array();
 
-if (class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers())) {
+if (class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers())) {
     $testsArray['pdo']  = array(
         'get_connection' => 'getPdo',
-        'class' => $namespace.'\DatabasePdoConnection'
+        'class' => $namespace.'\DatabaseWrapperPdo'
     );
 }
 
 if (class_exists('Doctrine\DBAL\Connection')) {
     $testsArray['doctrine'] = array(
         'get_connection' => 'getDoctrineConnection',
-        'class' => $namespace.'\DatabaseDoctrineConnection'
+        'class' => $namespace.'\DatabaseWrapperDoctrine'
     );
 }
 
 if (class_exists('Zend\Db\Adapter\Adapter')) {
     $testsArray['zend_adapter'] = array(
         'get_connection' => 'getZendAdapter',
-        'class' => $namespace.'\DatabaseZendAdapterConnection'
+        'class' => $namespace.'\DatabaseWrapperZend'
     );
 }
 

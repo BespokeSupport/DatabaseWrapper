@@ -37,6 +37,8 @@ class AllTest extends \PHPUnit_Framework_TestCase
         return self::$tests = unserialize(TESTS_ARRAY);
     }
 
+
+
     /**
      * Which tests?
      *
