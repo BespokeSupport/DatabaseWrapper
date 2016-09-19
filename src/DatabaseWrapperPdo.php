@@ -15,7 +15,7 @@ namespace BespokeSupport\DatabaseWrapper;
  * Class DatabaseWrapperPdo
  * @package BespokeSupport\DatabaseWrapper
  */
-class DatabaseWrapperPdo extends DatabaseAbstract
+class DatabaseWrapperPdo extends AbstractDatabaseWrapper
 {
     /**
      * @var \PDO
@@ -32,6 +32,22 @@ class DatabaseWrapperPdo extends DatabaseAbstract
         }
 
         parent::__construct($database);
+    }
+
+    /**
+     * @param $dsn
+     * @param $username
+     * @param $password
+     * @return DatabaseWrapperPdo|null
+     */
+    public static function createFromDsn($dsn, $username, $password)
+    {
+        try {
+            $pdo = new \PDO($dsn, $username, $password);
+            return new self($pdo);
+        } catch (\Exception $exception) {
+            return null;
+        }
     }
 
     /**
