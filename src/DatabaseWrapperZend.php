@@ -1,11 +1,12 @@
 <?php
 /**
- * Database Wrapper
+ * Database Wrapper.
  *
  * PHP Version 5
  *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
 
@@ -14,8 +15,7 @@ namespace BespokeSupport\DatabaseWrapper;
 use Zend\Db\Adapter\Adapter;
 
 /**
- * Class DatabaseWrapperZend
- * @package BespokeSupport\DatabaseWrapper
+ * Class DatabaseWrapperZend.
  */
 class DatabaseWrapperZend extends AbstractDatabaseWrapper
 {
@@ -54,7 +54,7 @@ class DatabaseWrapperZend extends AbstractDatabaseWrapper
             LIMIT 1
 TAG;
 
-        $result = $this->database->query($sql, array($primaryColumn => $primaryKey));
+        $result = $this->database->query($sql, [$primaryColumn => $primaryKey]);
 
         $row = $result->current();
 
@@ -75,7 +75,7 @@ TAG;
 
         $whereStmt = '';
         foreach ($findArray as $key => $value) {
-            $whereStmt .= " AND {$key} = :" . $key;
+            $whereStmt .= " AND {$key} = :".$key;
         }
 
         $sql = <<<TAG
@@ -105,7 +105,7 @@ TAG;
 
         $whereStmt = '';
         foreach ($findArray as $key => $value) {
-            $whereStmt .= " AND {$key} = :" . $key;
+            $whereStmt .= " AND {$key} = :".$key;
         }
 
         $sql = <<<TAG
@@ -130,7 +130,6 @@ TAG;
     public function getPdo()
     {
         // TODO create PDO
-        return null;
     }
 
     /**
@@ -144,7 +143,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlFetchAll($sql, array $params = array())
+    public function sqlFetchAll($sql, array $params = [])
     {
         return $this->database->query($sql, $params);
     }
@@ -152,7 +151,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlFetchOne($sql, array $params = array())
+    public function sqlFetchOne($sql, array $params = [])
     {
         $result = $this->database->query($sql, $params);
 
@@ -164,7 +163,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlInsertUpdate($sql, array $params = array())
+    public function sqlInsertUpdate($sql, array $params = [])
     {
         // TODO
     }

@@ -1,17 +1,15 @@
 <?php
 /**
  * Which tests are to be run?
- * PHP Version 5.3
+ * PHP Version 5.3.
  */
-
 define('TEST_DATABASE_TABLE', 'basic');
 define('TEST_DATABASE_TABLE_NO_ID', 'non_standard');
 define('TEST_ID_AVAIL', 1);
 define('TEST_ID_NON_STANDARD', 'AA');
 define('TEST_ID_UNKNOWN', 2);
 
-
-require_once dirname(__FILE__) . '/../vendor/autoload.php';
+require_once dirname(__FILE__).'/../vendor/autoload.php';
 require_once 'tests.functions.php';
 
 // load in credentials
@@ -27,27 +25,27 @@ if (file_exists(dirname(__FILE__).'/tests.credentials.php')) {
 
 $namespace = '\BespokeSupport\DatabaseWrapper';
 
-$testsArray = array();
+$testsArray = [];
 
 if (class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers())) {
-    $testsArray['pdo']  = array(
+    $testsArray['pdo'] = [
         'get_connection' => 'getPdo',
-        'class' => $namespace.'\DatabaseWrapperPdo'
-    );
+        'class'          => $namespace.'\DatabaseWrapperPdo',
+    ];
 }
 
 if (class_exists('Doctrine\DBAL\Connection')) {
-    $testsArray['doctrine'] = array(
+    $testsArray['doctrine'] = [
         'get_connection' => 'getDoctrineConnection',
-        'class' => $namespace.'\DatabaseWrapperDoctrine'
-    );
+        'class'          => $namespace.'\DatabaseWrapperDoctrine',
+    ];
 }
 
 if (class_exists('Zend\Db\Adapter\Adapter')) {
-    $testsArray['zend_adapter'] = array(
+    $testsArray['zend_adapter'] = [
         'get_connection' => 'getZendAdapter',
-        'class' => $namespace.'\DatabaseWrapperZend'
-    );
+        'class'          => $namespace.'\DatabaseWrapperZend',
+    ];
 }
 
 define('TESTS_ARRAY', serialize($testsArray));

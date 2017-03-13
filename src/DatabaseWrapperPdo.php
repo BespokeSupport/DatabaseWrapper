@@ -1,19 +1,19 @@
 <?php
 /**
- * Database Wrapper
+ * Database Wrapper.
  *
  * PHP Version 5
  *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
 
 namespace BespokeSupport\DatabaseWrapper;
 
 /**
- * Class DatabaseWrapperPdo
- * @package BespokeSupport\DatabaseWrapper
+ * Class DatabaseWrapperPdo.
  */
 class DatabaseWrapperPdo extends AbstractDatabaseWrapper
 {
@@ -38,15 +38,17 @@ class DatabaseWrapperPdo extends AbstractDatabaseWrapper
      * @param $dsn
      * @param $username
      * @param $password
+     *
      * @return DatabaseWrapperPdo|null
      */
     public static function createFromDsn($dsn, $username, $password)
     {
         try {
             $pdo = new \PDO($dsn, $username, $password);
+
             return new self($pdo);
         } catch (\Exception $exception) {
-            return null;
+            return;
         }
     }
 
@@ -100,7 +102,7 @@ TAG;
         $keyId = 0;
         foreach ($findArray as $key => $value) {
             $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
-            $whereStmt .= " AND {$key} = :pdoKey" . $keyId;
+            $whereStmt .= " AND {$key} = :pdoKey".$keyId;
             $keyId++;
         }
 
@@ -116,7 +118,7 @@ TAG;
 
         $keyId = 0;
         foreach ($findArray as $key => $value) {
-            $stmt->bindValue(':pdoKey' . $keyId, $value);
+            $stmt->bindValue(':pdoKey'.$keyId, $value);
             $keyId++;
         }
 
@@ -148,7 +150,7 @@ TAG;
         $keyId = 0;
         foreach ($findArray as $key => $value) {
             $key = preg_replace('#[^a-zA-Z0-9_-]#', '', $key);
-            $whereStmt .= " AND {$key} = :pdoKey" . $keyId;
+            $whereStmt .= " AND {$key} = :pdoKey".$keyId;
             $keyId++;
         }
 
@@ -165,7 +167,7 @@ TAG;
 
         $keyId = 0;
         foreach ($findArray as $key => $value) {
-            $stmt->bindValue(':pdoKey' . $keyId, $value);
+            $stmt->bindValue(':pdoKey'.$keyId, $value);
             $keyId++;
         }
 
@@ -201,11 +203,11 @@ TAG;
         // sql injection protection :(
         $table = preg_replace('#[^a-zA-Z0-9_-]#', '', $table);
 
-        $keysArray = array();
-        $valuesArray = array();
+        $keysArray = [];
+        $valuesArray = [];
         $keyId = 0;
         foreach ($values as $value) {
-            $keysArray[] = ":pdoKey" . $keyId;
+            $keysArray[] = ':pdoKey'.$keyId;
             $valuesArray[] = $value;
             $keyId++;
         }
@@ -239,7 +241,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlFetchAll($sql, array $params = array())
+    public function sqlFetchAll($sql, array $params = [])
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);
@@ -255,7 +257,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlFetchOne($sql, array $params = array())
+    public function sqlFetchOne($sql, array $params = [])
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);
@@ -271,7 +273,7 @@ TAG;
     /**
      * {@inheritdoc}
      */
-    public function sqlInsertUpdate($sql, array $params = array())
+    public function sqlInsertUpdate($sql, array $params = [])
     {
         $stmt = $this->database->prepare($sql);
         $stmt->execute($params);

@@ -1,43 +1,43 @@
 <?php
 /**
- * Database Wrapper
+ * Database Wrapper.
  *
  * PHP Version 5
  *
  * @category DB
- * @package  BespokeSupport\DatabaseWrapper
+ *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT http://opensource.org/licenses/MIT
  * @tag      DB
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
-
 use BespokeSupport\DatabaseWrapper\DatabaseWrapperException;
 
 /**
- * Class AllTest
+ * Class AllTest.
  *
  * @category DB
- * @package  BespokeSupport\DatabaseWrapper
+ *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT http://opensource.org/licenses/MIT
  * @tag      DB
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
 class AllTest extends \PHPUnit_Framework_TestCase
 {
-    protected static $tests = array();
+    protected static $tests = [];
 
     /**
-     * From tests.functions.php
+     * From tests.functions.php.
+     *
      * @return array
      */
     public static function setUpBeforeClass()
     {
         return self::$tests = unserialize(TESTS_ARRAY);
     }
-
-
 
     /**
      * Which tests?
@@ -51,6 +51,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Are we running any tests?
+     *
      * @return void
      */
     public function testTestsToBeRun()
@@ -68,7 +69,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $database = new $test['class']($databaseConnection);
             /**
-             * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
+             * @var \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
             $row = $database->find(TEST_DATABASE_TABLE, TEST_ID_AVAIL);
 
@@ -90,7 +91,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $database = new $test['class']($databaseConnection);
             /**
-             * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
+             * @var \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
             $row = $database->find(TEST_DATABASE_TABLE_NO_ID, TEST_ID_NON_STANDARD, $nonStandardColumn);
 
@@ -110,7 +111,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $database = new $test['class']($databaseConnection);
             /**
-             * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
+             * @var \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
             $row = $database->find(TEST_DATABASE_TABLE, TEST_ID_UNKNOWN);
             $this->assertFalse(is_object($row));
@@ -129,9 +130,9 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $row = $db->findOneBy(
                 TEST_DATABASE_TABLE,
-                array(
-                    'id' => TEST_ID_AVAIL
-                )
+                [
+                    'id' => TEST_ID_AVAIL,
+                ]
             );
 
             $this->assertTrue(is_object($row));
@@ -150,13 +151,13 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $database = new $test['class']($databaseConnection);
             /**
-             * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
+             * @var \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
             $rows = $database->findBy(
                 TEST_DATABASE_TABLE,
-                array(
-                    'id' => TEST_ID_AVAIL
-                )
+                [
+                    'id' => TEST_ID_AVAIL,
+                ]
             );
 
             $this->assertNotFalse($rows);
@@ -175,9 +176,9 @@ class AllTest extends \PHPUnit_Framework_TestCase
             $database = new $test['class']($databaseConnection);
             $row = $database->findOneBy(
                 TEST_DATABASE_TABLE,
-                array(
+                [
 
-                )
+                ]
             );
 
             $this->assertFalse(is_object($row));
@@ -194,13 +195,13 @@ class AllTest extends \PHPUnit_Framework_TestCase
 
             $database = new $test['class']($databaseConnection);
             /**
-             * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
+             * @var \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
             $row = $database->findBy(
                 TEST_DATABASE_TABLE,
-                array(
+                [
 
-                )
+                ]
             );
 
             $this->assertFalse($row);
@@ -217,7 +218,7 @@ class AllTest extends \PHPUnit_Framework_TestCase
             $databaseConnection = $test['get_connection']();
 
             $database = new $test['class']($databaseConnection);
-            /**
+            /*
              * @var $database \BespokeSupport\DatabaseWrapper\DatabaseWrapperInterface
              */
 
@@ -239,7 +240,6 @@ class AllTest extends \PHPUnit_Framework_TestCase
     public function testInvalidConnectionObject()
     {
         foreach (self::$tests as $test) {
-
             try {
                 $database = new $test['class'](false);
                 $this->assertTrue(false);
