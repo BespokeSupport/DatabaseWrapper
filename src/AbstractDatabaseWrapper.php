@@ -1,11 +1,12 @@
 <?php
 /**
- * Database Wrapper
+ * Database Wrapper.
  *
  * PHP Version 5
  *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
 
@@ -15,8 +16,7 @@ use Doctrine\DBAL\Connection;
 use Zend\Db\Adapter\Adapter;
 
 /**
- * Class AbstractDatabaseWrapper
- * @package BespokeSupport\DatabaseWrapper
+ * Class AbstractDatabaseWrapper.
  */
 abstract class AbstractDatabaseWrapper implements DatabaseWrapperInterface
 {
@@ -27,6 +27,7 @@ abstract class AbstractDatabaseWrapper implements DatabaseWrapperInterface
 
     /**
      * @param $database
+     *
      * @throws DatabaseWrapperException
      */
     public function __construct($database)

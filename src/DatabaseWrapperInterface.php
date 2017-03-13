@@ -1,19 +1,19 @@
 <?php
 /**
- * Database Wrapper
+ * Database Wrapper.
  *
  * PHP Version 5
  *
  * @author   Richard Seymour <web@bespoke.support>
  * @license  MIT
+ *
  * @link     https://github.com/BespokeSupport/DatabaseWrapper
  */
 
 namespace BespokeSupport\DatabaseWrapper;
 
 /**
- * Interface DatabaseWrapperInterface
- * @package BespokeSupport\WrapperDatabase
+ * Interface DatabaseWrapperInterface.
  */
 interface DatabaseWrapperInterface
 {
@@ -21,6 +21,7 @@ interface DatabaseWrapperInterface
      * @param $table
      * @param $primaryKey
      * @param string $primaryColumn
+     *
      * @return object
      */
     public function find($table, $primaryKey, $primaryColumn = 'id');
@@ -28,6 +29,7 @@ interface DatabaseWrapperInterface
     /**
      * @param $table
      * @param array $findBy
+     *
      * @return array
      */
     public function findBy($table, array $findBy);
@@ -35,6 +37,7 @@ interface DatabaseWrapperInterface
     /**
      * @param $table
      * @param array $findArray
+     *
      * @return object
      */
     public function findOneBy($table, array $findArray);
@@ -47,6 +50,7 @@ interface DatabaseWrapperInterface
     /**
      * @param $table
      * @param array $values
+     *
      * @return array
      */
     public function insert($table, array $values);
@@ -54,36 +58,39 @@ interface DatabaseWrapperInterface
     /**
      * @param $sql
      * @param array $params
+     *
      * @return array
      */
-    public function sqlFetchAll($sql, array $params = array());
+    public function sqlFetchAll($sql, array $params = []);
 
     /**
      * @param $sql
      * @param array $params
+     *
      * @return \stdClass
      */
-    public function sqlFetchOne($sql, array $params = array());
+    public function sqlFetchOne($sql, array $params = []);
 
     /**
      * @param $sql
      * @param array $params
+     *
      * @return string
      */
-    public function sqlInsertUpdate($sql, array $params = array());
+    public function sqlInsertUpdate($sql, array $params = []);
 
     /**
-     * Begin Transaction
+     * Begin Transaction.
      */
     public function transactionBegin();
 
     /**
-     * End Transaction
+     * End Transaction.
      */
     public function transactionCommit();
 
     /**
-     * Rollback Transaction
+     * Rollback Transaction.
      */
     public function transactionRollback();
 }

@@ -1,8 +1,7 @@
 <?php
 /**
- * Functions to grab DB
+ * Functions to grab DB.
  */
-
 use Doctrine\DBAL\DriverManager;
 
 /**
@@ -17,7 +16,7 @@ function getPdo()
     );
 
     if (!defined('TEST_AVAILABILITY_PDO')) {
-        define('TEST_AVAILABILITY_PDO', ($pdo)?true:false);
+        define('TEST_AVAILABILITY_PDO', ($pdo) ? true : false);
     }
 
     return $pdo;
@@ -28,13 +27,13 @@ function getPdo()
  */
 function getDoctrineConnection()
 {
-    $connectionParams = array(
-        'dbname' => CREDENTIALS_NAME,
-        'user' => CREDENTIALS_USER,
+    $connectionParams = [
+        'dbname'   => CREDENTIALS_NAME,
+        'user'     => CREDENTIALS_USER,
         'password' => CREDENTIALS_PASS,
-        'host' => CREDENTIALS_HOST,
-        'driver' => 'pdo_mysql',
-    );
+        'host'     => CREDENTIALS_HOST,
+        'driver'   => 'pdo_mysql',
+    ];
 
     $doctrineConnection = DriverManager::getConnection($connectionParams, null);
 
@@ -47,12 +46,12 @@ function getDoctrineConnection()
 function getZendAdapter()
 {
     return new Zend\Db\Adapter\Adapter(
-        array(
-            'driver' => 'Pdo_Mysql',
+        [
+            'driver'   => 'Pdo_Mysql',
             'database' => CREDENTIALS_NAME,
             'username' => CREDENTIALS_USER,
-            'password' => CREDENTIALS_PASS
-        )
+            'password' => CREDENTIALS_PASS,
+        ]
     );
 }
 
